@@ -15,15 +15,15 @@ Install [xctool](https://github.com/facebook/xctool)
 
 ## Usage
 
-    $ objc Anagram
+    $ objc Bob
 
-The `objc` binary will find and run the tests for the following files: `Anagram.h`,
-`Anagram.m` and `AnagramTest.m`.
+The `objc` binary will find and run the tests for the following files: `Bob.h`,
+`Bob.m` and `BobTest.m`.
 
 More specifically the following occurs:
 
-* Finds the files matching the specified prefix (e.g. `Anagram.h`,
-  `Anagram.m` and `AnagramTest.m`)
+* Finds the files matching the specified prefix (e.g. `Bob.h`,
+  `Bob.m` and `BobTest.m`)
 * An Xcode Project, managed by the gem, is copied to to a tmp location on the
   system.
 * Using the [xcoder](https://github.com/rayh/xcoder) the project file is
@@ -36,42 +36,47 @@ More specifically the following occurs:
 The test suite used is **XCTest**. This is an example of the header, source
 and test file.
 
-### Anagram.h
+### Bob.h
 
 ```
 #import <Foundation/Foundation.h>
 
-@interface Anagram : NSObject
+@interface Bob : NSObject
 
-- (id)initWithString:(NSString *)string;
-- (NSArray *)match:(NSArray *)possibleMatches;
-
-@end
-```
-
-### Anagram.m
-
-```
-#import "Anagram.h"
-
-@implementation Anagram
-
-- (id)initWithString:(NSString *)string {
-    return [super init];
-}
-
-- (NSArray *)match:(NSArray *)possibleMatches {
-    return @[];
-}
+- (NSString *)hey:(NSString *)statement;
 
 @end
 ```
 
-### AnagramTest.m
+### Bob.m
+
+```
+#import "Bob.h"
+
+@implementation Bob
+
+-(NSString *)hey:(NSString *)statement {
+
+  if ([statement isEqualToString:@""]) {
+    return @"Fine, be that way.";
+  } else if ([statement hasSuffix:@"?"]) {
+    return @"Sure.";
+  } else if ([statement isEqualToString:[statement uppercaseString]]) {
+    return @"Woah, chill out!";
+  } else {
+    return @"Whatever.";
+  }
+
+}
+
+@end
+```
+
+### BobTest.m
 
 ```
 #import <XCTest/XCTest.h>
-#import "Anagram.h"
+#import "Bob.h"
 
 @interface test_suite : XCTestCase
 
@@ -79,23 +84,57 @@ and test file.
 
 @implementation test_suite
 
-- (void)setUp
-{
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+- (Bob *)bob {
+  return [[Bob alloc] init];
 }
 
-- (void)tearDown
-{
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
+- (void)testStatingSomething {
+  NSString *input = @"Tom-ay-to, tom-aaaah-to.";
+  NSString *expected = @"Whatever.";
+  NSString *result = [[self bob] hey:input];
+  XCTAssertEqual(expected,result);
 }
 
-- (void)testNoMatches {
-    Anagram *detector = [[Anagram alloc] initWithString:@"diaper"];
-    NSArray *matches = [detector match:@[@"hello",@"world",@"zombies",@"patns"]];
+- (void)testShouting {
+  NSString *input = @"WATCH OUT!";
+  NSString *expected = @"Woah, chill out!";
+  NSString *result = [[self bob] hey:input];
+  XCTAssertEqual(expected,result);
+}
 
-    XCTAssertEqual(@[], matches, @"Format");
+- (void)testAskingAQuestion {
+  NSString *input = @"Does this cryogenic chamber make me look fat?";
+  NSString *expected = @"Sure.";
+  NSString *result = [[self bob] hey:input];
+  XCTAssertEqual(expected,result);
+}
+
+- (void)testTalkingForcefully {
+  NSString *input = @"Let's go make out behind the gym!";
+  NSString *expected = @"Whatever.";
+  NSString *result = [[self bob] hey:input];
+  XCTAssertEqual(expected,result);
+}
+
+- (void)testShoutingNumbers {
+  NSString *input = @"1, 2, 3 GO!";
+  NSString *expected = @"Woah, chill out!";
+  NSString *result = [[self bob] hey:input];
+  XCTAssertEqual(expected,result);
+}
+
+- (void)testShoutingWithSpecialCharacters {
+  NSString *input = @"ZOMG THE %^*@#$(*^ ZOMBIES ARE COMING!!11!!1!";
+  NSString *expected = @"Woah, chill out!";
+  NSString *result = [[self bob] hey:input];
+  XCTAssertEqual(expected,result);
+}
+
+- (void)testSilence {
+  NSString *input = @"";
+  NSString *expected = @"Fine, be that way.";
+  NSString *result = [[self bob] hey:input];
+  XCTAssertEqual(expected,result);
 }
 
 @end
