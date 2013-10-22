@@ -11,6 +11,8 @@ Install the gem
 
 Install [xctool](https://github.com/facebook/xctool)
 
+    $ brew install xctool
+
 ## Usage
 
     $ objc Anagram
