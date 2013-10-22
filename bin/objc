@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+path = __FILE__
+$:.unshift(File.join(File.dirname(File.expand_path(path)), '..', 'lib'))
+require 'objc'
+
+if ARGV.length == 1
+  Objc::Test.with(ARGV[0])
+else
+  puts %{
+
+    The `objc` binary requires that you provide a file prefix so that it is
+    able to find the: header file; source file; and test file.
+
+    $ objc Anagram
+
+    This will find the following: Anagram.h; Anagram.m; and AnagramTest.m
+}
+end
