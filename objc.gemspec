@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
 execution of a test suite without the hassle of managing an Xcode Project File. This allows you to work on your source files outside of a Xcode project but still have them tested. This is useful when when you want to practice Objective-C without the hassle of Xcode.}
   spec.summary       = %q{This gem is a test suite runner for Objective-C files to allow for the easy
 execution of a test suite without the hassle of managing an Xcode Project File}
-  spec.homepage      = "github.com/burtlo/objc"
+  spec.homepage      = "https://github.com/burtlo/objc"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
