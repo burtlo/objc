@@ -35,7 +35,8 @@ module Objc
 
 
       def execute!
-        puts `xctool -project #{project_path} -scheme IgnoreThisTarget test`
+        pid = spawn xctool_command
+        Process.wait
       end
 
 
@@ -71,6 +72,10 @@ module Objc
 
       def group_name
         'test-suite'
+      end
+
+      def xctool_command
+        "xctool -project #{project_path} -scheme IgnoreThisTarget test"
       end
     end
   end
