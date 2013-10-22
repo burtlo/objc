@@ -20,19 +20,6 @@ Install [xctool](https://github.com/facebook/xctool)
 The `objc` binary will find and run the tests for the following files: `Bob.h`,
 `Bob.m` and `BobTest.m`.
 
-More specifically the following occurs:
-
-* Finds the files matching the specified prefix (e.g. `Bob.h`,
-  `Bob.m` and `BobTest.m`)
-* An Xcode Project, managed by the gem, is copied to to a tmp location on the
-  system.
-* Using the [xcoder](https://github.com/rayh/xcoder) the project file is
-  manipulated and the found files are added.
-* Using [xctool](https://github.com/facebook/xctool) the tests from the
-  project file are executed.
-
-## XCTest
-
 The test suite used is **XCTest**. This is an example of the header, source
 and test file.
 
@@ -139,6 +126,25 @@ and test file.
 
 @end
 ```
+
+## Details
+
+When you run `objc Bob`, more specifically the following occurs:
+
+* Finds the files matching the specified prefix (e.g. `Bob.h`,
+  `Bob.m` and `BobTest.m`)
+* An Xcode Project, managed by the gem, is copied to to a tmp location on the
+  system.
+* Using the [xcoder](https://github.com/rayh/xcoder) the project file is
+  manipulated and the found files are added.
+* Using [xctool](https://github.com/facebook/xctool) the tests from the
+  project file are executed.
+
+## Limitations
+
+* Currently the template project is a Cocoa App that will launch a window for
+  a brief moment during the tets. I couldn't get a project with just tests to
+  run with **xctool** or **xcodebuild**.
 
 ## Contributing
 
