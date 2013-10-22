@@ -1,5 +1,6 @@
 require "objc/version"
 require 'xcoder'
+require 'tmpdir'
 
 module Objc
   module Test
@@ -46,7 +47,11 @@ module Objc
     class XcodeProject
 
       def install!
-        project_path
+        extract
+      end
+
+      def extract
+        `tar -xvf template/template-project.tar -C #{temp_path}`
       end
 
       def add(files)
@@ -75,8 +80,16 @@ module Objc
 
       private
 
+      def project_template_tar_file
+        File.expand_path(File.join(__FILE__,"..","..","template","template-project.tar"))
+      end
+
+      def temp_path
+        @temp_path ||= Dir.tmpdir
+      end
+
       def project_path
-        File.expand_path("../ExercismTestFixture/ExercismTestFixture.xcodeproj")
+        File.expand_path(File.join(temp_path,"/ExercismTestFixture/ExercismTestFixture.xcodeproj"))
       end
 
       def target_name
