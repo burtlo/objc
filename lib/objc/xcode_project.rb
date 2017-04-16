@@ -1,6 +1,11 @@
 module Objc
   module Test
     class XcodeProject
+      attr_reader :runner
+
+      def initialize(runner)
+        @runner = runner
+      end
 
       def install!
         clean
@@ -74,8 +79,16 @@ module Objc
         'test-suite'
       end
 
+      def use_xcodebuild?
+        runner == :xcodebuild
+      end
+
       def xctool_command
-        "xctool -project #{project_path} -scheme IgnoreThisTarget test"
+        if use_xcodebuild?
+          "xcodebuild -project #{project_path} -scheme IgnoreThisTarget test | xcpretty"
+        else
+          "xctool -project #{project_path} -scheme IgnoreThisTarget test"
+        end
       end
     end
   end

@@ -9,12 +9,12 @@ module Objc
   module Test
     extend self
 
-    def with(filePrefix)
+    def with(filePrefix, runner: :xctool)
       puts "Looking for all files with prefix: #{filePrefix}"
 
       files = SourceFiles.new(filePrefix)
 
-      project = XcodeProject.new
+      project = XcodeProject.new(runner)
       project.install!
       project.add(files)
       project.execute!
